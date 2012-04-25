@@ -1,3 +1,7 @@
+The below documentation is out of date, email joe@tanga.com if you want
+it updated.
+
+
 Dead simple slug library. Automatically generates a non-changing uuid for
 each row in your tables. Generates URLs like 
 http://www.tanga.com/deals/your-product-name/dka339da, 
