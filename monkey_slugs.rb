@@ -21,7 +21,7 @@ module MonkeySlugs
       "#{friendly_name}/#{uuid}"
     end
 
-    def correct_slug? id
+    def correct_friendly_name? id
       self.class.extract_friendly_name(id) == friendly_name
     end
 

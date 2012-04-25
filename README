@@ -1,0 +1,39 @@
+Dead simple slug library. Automatically generates a non-changing uuid for
+each row in your tables. Generates URLs like 
+http://www.tanga.com/deals/your-product-name/dka339da, 
+where the 'your-product-name' text in the URL can change at anytime.
+Also does easy redirects to the new URLs if the product name changes.
+
+Instructions:
+
+1. Add a column to your table called 'uuid'. 
+This column should be not null and unique.
+If this table already has data in it, you'll 
+need to populate each row with a unique identifier.
+
+Example (in postgres):
+   alter table questions add column uuid character varying unique;
+   update questions set uuid = substr(md5(random()::text), 0, 8);
+   alter table questions alter column uuid set not null;
+
+
+2. In your model, add the following:
+   # The friendly name in the URL is based on the title parameter.
+   class Question < ActiveRecord::Base
+     MonkeySlugs.sluggify self, :how => proc { title.parameterize }
+   end
+  
+This will generate URLs like:
+    question_url(question) => /questions/some-title-here/8d8asfs3
+
+
+3. In your routes, add a constraint for the resource like:
+    resources :questions, :constraints => MonkeySlugs::ROUTE
+
+This allows for routes with slashes in the :id segment.
+
+
+4. (optional) In your controller, if you want to redirect to the canonical path, do
+    redirect_to question_url(@question) and return if !@question.correct_friendly_name?(params[:id])
+
+that's it.
