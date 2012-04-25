@@ -53,7 +53,7 @@ module MonkeySlugs
         title
       else
         to_s
-      end
+      end.parameterize
     end
 
     module ClassMethods
