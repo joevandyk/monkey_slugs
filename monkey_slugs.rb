@@ -100,7 +100,13 @@ module MonkeySlugs
       # What's the correct way to do this?
       def find id, *args, &block
         uuid = extract_uuid(id)
-        where("#{slug_column} = ? or #{primary_key} = ?", uuid, uuid).first || super
+        result =
+          if id.to_i > 0
+            where("#{slug_column} = ? or #{primary_key} = ?", uuid, uuid)
+          else
+            where("#{slug_column} = ?", uuid)
+          end
+        result.first || super
       end
     end
   end
