@@ -26,6 +26,14 @@ Example (in postgres):
 This will generate URLs like:
     question_url(question) => /questions/some-title-here/8d8asfs3
 
+If you want to customize how the uuid is generated, you can set the :uuid 
+option, like
+
+  MonkeySlugs.sluggify(                                                                    
+    self,
+    :how  => proc { title.parameterize },                                                    
+    :uuid => proc { self.uuid ||= SecureRandom.hex(20)})  
+
 
 3. In your routes, add a constraint for the resource like:
     resources :questions, :constraints => MonkeySlugs::ROUTE
@@ -36,4 +44,4 @@ This allows for routes with slashes in the :id segment.
 4. (optional) In your controller, if you want to redirect to the canonical path, do
     redirect_to question_url(@question) and return if !@question.correct_friendly_name?(params[:id])
 
-that's it.
+that's it!

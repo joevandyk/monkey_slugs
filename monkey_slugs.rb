@@ -4,6 +4,9 @@ module MonkeySlugs
   def self.sluggify klass, options={}
     klass.send :include, MonkeySlugs::Slug
     klass.send :define_method, :friendly_name, options[:how]
+    if options[:uuid].present?
+      klass.send :define_method, :set_uuid, options[:uuid]
+    end
   end
 
   module Slug
@@ -14,7 +17,7 @@ module MonkeySlugs
     end
 
     def set_uuid
-      self.uuid ||= SecureRandom.hex(4)
+      self.uuid ||= SecureRandom.hex(8)
     end
 
     def to_param
