@@ -17,7 +17,7 @@ module MonkeySlugs
     end
 
     def set_uuid
-      self.uuid ||= SecureRandom.hex(8)
+      self.uuid ||= SecureRandom.hex(5)
     end
 
     def to_param
