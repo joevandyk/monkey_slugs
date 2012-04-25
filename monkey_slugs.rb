@@ -28,7 +28,7 @@ module MonkeySlugs
 
     def to_param
       if self.class.use_uuid?
-        "#{friendly_name}/#{slug_value}"
+        "#{slug_value}/#{friendly_name}"
       else
         slug_value
       end
@@ -50,7 +50,7 @@ module MonkeySlugs
     end
 
     def slug_value
-      send(slug_column) || send(self.class.primary_key)
+      send(slug_column) || send(self.class.primary_key).to_s
     end
 
     def slug_value= value
@@ -67,7 +67,7 @@ module MonkeySlugs
 
     def friendly_name
       if friendly_name_source
-        return send(friendly_name_source).to_s
+        return send(friendly_name_source).parameterize
       end
 
       if respond_to?(:name)
@@ -83,7 +83,7 @@ module MonkeySlugs
       # There's probably a better way to do this.
       def extract_uuid id
         if use_uuid?
-          id.split('/').last
+          id.split('/').first
         else
           id
         end
@@ -91,7 +91,7 @@ module MonkeySlugs
 
       def extract_friendly_name id
         if use_uuid?
-          id.split('/')[0..-2].join('/')
+          id.split('/')[1..-1].join('/')
         else
           id
         end
