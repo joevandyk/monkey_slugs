@@ -3,7 +3,11 @@ module MonkeySlugs
 
   def self.sluggify klass, options={}
     klass.send :include, MonkeySlugs::Slug
-    klass.send :define_method, :friendly_name, options[:how]
+
+    if options[:how].present?
+      klass.send :define_method, :friendly_name, options[:how]
+    end
+
     if options[:uuid].present?
       klass.send :define_method, :set_uuid, options[:uuid]
     end
