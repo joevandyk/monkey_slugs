@@ -42,6 +42,7 @@ module MonkeySlugs
         id.include?('/')
       end
 
+      # What's the correct way to do this?
       def find id, *args, &block
         if has_uuid?(id)
           uuid = extract_uuid(id)
