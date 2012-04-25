@@ -35,6 +35,18 @@ option, like
     :uuid => proc { self.uuid ||= SecureRandom.hex(20)})  
 
 
+Instead of passing in :how and :uuid options, you can also define
+`set_uuid` and `friendly_name` in your models.
+    class Question < ActiveRecord::Base
+      MonkeySlugs.sluggify(self)
+      def set_uuid
+        self.uuid ||= SecureRandom.hex(10)
+      end
+      def friendly_name
+        title.parameterize
+      end
+    end
+
 3. In your routes, add a constraint for the resource like:
     resources :questions, :constraints => MonkeySlugs::ROUTE
 
