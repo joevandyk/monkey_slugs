@@ -98,7 +98,7 @@ module MonkeySlugs
       end
 
       # What's the correct way to do this?
-      def find id, *args, &block
+      def find_one id
         uuid = extract_uuid(id)
         result =
           if id.to_i > 0
