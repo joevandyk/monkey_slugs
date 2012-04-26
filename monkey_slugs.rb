@@ -100,7 +100,7 @@ module MonkeySlugs
       # What's the correct way to do this?
       def find_by_slug id
         uuid = extract_uuid(id)
-        result = where(:slug_column => uuid)
+        result = where(slug_column => uuid)
         result.first || raise(ActiveRecord::RecordNotFound.new("couldn't find #{ id }"))
       end
     end
