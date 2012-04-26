@@ -50,7 +50,7 @@ module MonkeySlugs
     end
 
     def slug_value
-      send(slug_column) || send(self.class.primary_key).to_s
+      send(slug_column)
     end
 
     def slug_value= value
