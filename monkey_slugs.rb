@@ -98,7 +98,7 @@ module MonkeySlugs
       end
 
       # What's the correct way to do this?
-      def find_one id
+      def find_by_slug id
         uuid = extract_uuid(id)
         result =
           if id.to_i > 0
@@ -106,7 +106,7 @@ module MonkeySlugs
           else
             where("#{slug_column} = ?", uuid)
           end
-        result.first || super
+        result.first
       end
     end
   end
