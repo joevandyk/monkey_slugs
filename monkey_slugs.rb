@@ -100,12 +100,7 @@ module MonkeySlugs
       # What's the correct way to do this?
       def find_by_slug id
         uuid = extract_uuid(id)
-        result =
-          if id.to_i > 0
-            where("#{slug_column} = ? or #{primary_key} = ?", uuid, uuid)
-          else
-            where("#{slug_column} = ?", uuid)
-          end
+        result = where(:slug_column => uuid)
         result.first || raise(ActiveRecord::RecordNotFound.new("couldn't find #{ id }"))
       end
     end
