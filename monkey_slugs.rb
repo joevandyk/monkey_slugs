@@ -106,7 +106,7 @@ module MonkeySlugs
           else
             where("#{slug_column} = ?", uuid)
           end
-        result.first
+        result.first || raise(ActiveRecord::RecordNotFound.new("couldn't find #{ id }"))
       end
     end
   end
