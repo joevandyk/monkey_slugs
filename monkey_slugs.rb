@@ -42,8 +42,10 @@ class MonkeySlugs
     end
 
     def update_slug_column
-      if use_uuid? and slug_value.blank?
-        self.slug_value = generate_uuid
+      if use_uuid?
+        if slug_value.blank?
+          self.slug_value = generate_uuid
+        end
       else
         f = friendly_name
         if slug_value != f
