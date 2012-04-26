@@ -1,5 +1,8 @@
-module MonkeySlugs
+class MonkeySlugs
   ROUTE = { :id => /.*/ }
+
+  class_attribute :to_param
+  self.to_param = true
 
   def self.sluggify klass, options={}
     options = {
@@ -27,10 +30,14 @@ module MonkeySlugs
     end
 
     def to_param
-      if self.class.use_uuid?
-        "#{slug_value}/#{friendly_name}"
+      if MonkeySlugs.to_param
+        if self.class.use_uuid?
+          "#{slug_value}/#{friendly_name}"
+        else
+          slug_value
+        end
       else
-        slug_value
+        super
       end
     end
 
