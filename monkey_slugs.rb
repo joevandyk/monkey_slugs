@@ -9,7 +9,7 @@ class MonkeySlugs
       :use_uuid             => true,
       :friendly_name_source => nil,
       :slug_column          => :uuid,
-      :update_slug_on_save  => false
+      :update_slug_on_save  => true
     }.merge!(options)
 
     klass.send :include, MonkeySlugs::Slug
@@ -17,6 +17,7 @@ class MonkeySlugs
     klass.use_uuid             = options[:use_uuid]
     klass.friendly_name_source = options[:friendly_name_source]
     klass.slug_column          = options[:slug_column]
+    klass.update_slug_on_save  = options[:update_slug_on_save]
   end
 
   module Slug
@@ -26,6 +27,7 @@ class MonkeySlugs
       class_attribute :use_uuid
       class_attribute :friendly_name_source
       class_attribute :slug_column
+      class_attribute :update_slug_on_save
       before_save :update_slug_column
     end
 
@@ -47,6 +49,7 @@ class MonkeySlugs
           self.slug_value = generate_uuid
         end
       else
+        return if slug_value.present? and !update_slug_on_save
         f = friendly_name
         if slug_value != f
           self.slug_value = f
