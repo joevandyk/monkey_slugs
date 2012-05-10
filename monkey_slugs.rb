@@ -59,7 +59,7 @@ class MonkeySlugs
     end
 
     def generate_uuid
-      SecureRandom.hex(5)
+      SecureRandom.hex(6)
     end
 
     def slug_value
