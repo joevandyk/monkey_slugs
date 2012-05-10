@@ -44,12 +44,13 @@ class MonkeySlugs
     end
 
     def update_slug_column
+      return if !update_slug_on_save
       if use_uuid?
         if slug_value.blank?
           self.slug_value = generate_uuid
         end
       else
-        return if slug_value.present? and !update_slug_on_save
+        return if slug_value.present?
         f = friendly_name
         if slug_value != f
           self.slug_value = f
